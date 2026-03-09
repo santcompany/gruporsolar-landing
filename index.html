@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupo R Energia Solar — Integrador WEG · Campo Grande, MS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #0A0A0A;
+  --dark:    #111111;
+  --dark2:   #191919;
+  --dark3:   #222222;
+  --yellow:  #F5A800;
+  --yellow-l:#FFB800;
+  --yellow-d:#C88A00;
+  --yellow-xl:rgba(245,168,0,.08);
+  --white:   #F8F8F8;
+  --ink-mid: #5A5A5A;
+  --ink-lite:#3A3A3A;
+  --border:  rgba(245,168,0,.12);
+  --border-w:rgba(255,255,255,.07);
+}
+
+html { background: #0A0A0A; scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ══ GRAIN ══ */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px;
+}
+
+/* ══ CURSOR ══ */
+#cur {
+  position: fixed; z-index: 9999; pointer-events: none;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--yellow);
+  transform: translate(-50%,-50%);
+  transition: width .2s, height .2s;
+  box-shadow: 0 0 10px var(--yellow);
+}
+#cur-ring {
+  position: fixed; z-index: 9998; pointer-events: none;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid rgba(245,168,0,.35);
+  transform: translate(-50%,-50%);
+  transition: left .1s ease, top .1s ease, width .25s, height .25s;
+}
+body.hov #cur { width: 14px; height: 14px; }
+body.hov #cur-ring { width: 52px; height: 52px; border-color: var(--yellow); }
+
+/* ══ NAV ══ */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 200;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 64px;
+  background: rgba(10,10,10,.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+nav.sc { border-color: rgba(245,168,0,.25); box-shadow: 0 4px 32px rgba(0,0,0,.4); }
+
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-logo-r {
+  width: 38px; height: 38px; background: var(--yellow);
+  clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.nav-logo-r span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; color: var(--black); letter-spacing: -1px; line-height: 1;
+}
+.nav-logo-info { display: flex; flex-direction: column; line-height: 1; }
+.nav-logo-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 2px; color: var(--white);
+}
+.nav-logo-sub {
+  font-size: 9px; font-weight: 300; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--yellow-d); margin-top: 1px;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(248,248,248,.35); text-decoration: none; transition: color .2s; cursor: none;
+}
+.nav-links a:hover { color: var(--yellow); }
+.nav-cta {
+  background: var(--yellow); color: var(--black);
+  padding: 10px 26px;
+  clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: none; text-decoration: none; transition: all .2s;
+}
+.nav-cta:hover { background: var(--yellow-l); }
+
+/* ══ HERO ══ */
+.hero {
+  min-height: 100vh; padding-top: 64px;
+  display: grid; grid-template-columns: 55% 45%;
+  position: relative; overflow: hidden;
+}
+/* Grid texture */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,168,0,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,168,0,.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none; z-index: 0;
+}
+.hero-left {
+  padding: 80px 64px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 2;
+}
+
+/* WEG badge */
+.weg-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(245,168,0,.1); border: 1px solid rgba(245,168,0,.3);
+  padding: 8px 18px; margin-bottom: 28px; width: fit-content;
+  animation: fUp .5s ease .1s both;
+}
+.weg-badge-icon {
+  width: 22px; height: 22px;
+  background: var(--yellow);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif; font-size: 12px; color: var(--black);
+}
+.weg-badge-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--yellow);
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(58px, 7vw, 112px);
+  line-height: .9; letter-spacing: -1px;
+  color: var(--white); margin-bottom: 22px;
+  animation: fUp .6s ease .2s both;
+}
+.hero-title .ht-y { color: var(--yellow); display: block; }
+.hero-title .ht-o {
+  -webkit-text-stroke: 2px rgba(255,255,255,.12);
+  color: transparent; display: block;
+}
+
+.hero-desc {
+  font-size: 15px; font-weight: 300; line-height: 1.8;
+  color: rgba(248,248,248,.5); max-width: 420px; margin-bottom: 36px;
+  animation: fUp .6s ease .35s both;
+}
+.hero-desc strong { color: var(--yellow); font-weight: 500; }
+
+/* Pillars row */
+.hero-pillars {
+  display: flex; gap: 0; margin-bottom: 36px;
+  animation: fUp .6s ease .45s both;
+}
+.hp-item {
+  flex: 1; padding: 16px 14px;
+  background: var(--dark2); border: 1px solid var(--border-w);
+  border-right: none; position: relative; overflow: hidden;
+  transition: background .2s;
+}
+.hp-item:last-child { border-right: 1px solid var(--border-w); }
+.hp-item:hover { background: var(--dark3); }
+.hp-item::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--yellow); transform: scaleX(0); transition: transform .3s;
+}
+.hp-item:hover::after { transform: scaleX(1); }
+.hp-icon { font-size: 18px; margin-bottom: 4px; }
+.hp-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--white);
+}
+.hp-sub { font-size: 11px; font-weight: 300; color: rgba(248,248,248,.3); margin-top: 1px; }
+
+.hero-actions {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  animation: fUp .6s ease .6s both;
+}
+.btn-yellow {
+  background: var(--yellow); color: var(--black);
+  padding: 14px 38px;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: none; text-decoration: none; display: inline-block; transition: all .2s;
+}
+.btn-yellow:hover { background: var(--yellow-l); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,168,0,.35); }
+.btn-outline {
+  background: transparent; border: 1px solid rgba(245,168,0,.25); color: rgba(248,248,248,.55);
+  padding: 13px 30px;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; cursor: none; display: inline-block; transition: all .2s;
+}
+.btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+
+/* Hero right */
+.hero-right {
+  background: var(--dark);
+  display: flex; flex-direction: column;
+  position: relative; z-index: 2;
+  border-left: 1px solid var(--border);
+}
+/* Big R watermark */
+.hr-wm {
+  position: absolute; right: -5%; bottom: -15%;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32vw; color: rgba(245,168,0,.04);
+  pointer-events: none; user-select: none; line-height: 1; letter-spacing: -4px;
+}
+.hr-top {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 60px 44px;
+  border-bottom: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+/* Concentric rings — sun effect */
+.hr-rings {
+  position: relative; width: 180px; height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 32px;
+}
+.hr-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(245,168,0,.15);
+  animation: spin 20s linear infinite;
+}
+.hr-ring:nth-child(1) { width: 180px; height: 180px; animation-direction: reverse; }
+.hr-ring:nth-child(2) { width: 140px; height: 140px; border-color: rgba(245,168,0,.2); animation-duration: 14s; }
+.hr-ring:nth-child(3) { width: 100px; height: 100px; border-color: rgba(245,168,0,.3); animation-duration: 8s; animation-direction: reverse; }
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+.hr-ring:nth-child(1)::before,
+.hr-ring:nth-child(2)::before,
+.hr-ring:nth-child(3)::before {
+  content: ''; position: absolute; top: -3px; left: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--yellow); transform: translateX(-50%);
+  box-shadow: 0 0 8px var(--yellow);
+}
+.hr-center {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--yellow);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 32px rgba(245,168,0,.5);
+  z-index: 2;
+}
+.hr-center span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; color: var(--black); line-height: 1;
+}
+
+.hr-quote {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--white); text-align: center; line-height: 1.25;
+}
+.hr-quote em { color: var(--yellow); font-style: normal; }
+
+.hr-bottom {
+  background: var(--dark2); padding: 28px 44px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  position: relative; z-index: 1;
+}
+.hr-stat { text-align: center; }
+.hr-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; color: var(--yellow); line-height: 1;
+}
+.hr-stat-lbl { font-size: 10px; font-weight: 300; color: rgba(248,248,248,.3); margin-top: 2px; letter-spacing: .5px; }
+
+/* ══ TICKER ══ */
+.ticker { background: var(--yellow); padding: 10px 0; overflow: hidden; }
+.ticker-track { display: flex; animation: tScroll 24s linear infinite; width: max-content; }
+.ticker-item {
+  display: flex; align-items: center; gap: 10px; padding: 0 22px;
+  white-space: nowrap;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(10,10,10,.6);
+}
+.ts { color: rgba(10,10,10,.25); font-size: 9px; }
+@keyframes tScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ══ SIMULADOR DE PROJETO — ELEMENTO INTERATIVO ══ */
+.simulador {
+  padding: 120px 64px;
+  background: var(--dark);
+  position: relative; overflow: hidden;
+}
+.simulador::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,168,0,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,168,0,.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+}
+.sim-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: start; margin-top: 64px; position: relative; z-index: 1;
+}
+
+/* Steps */
+.sim-steps {}
+.sim-intro { font-size: 14px; font-weight: 300; line-height: 1.8; color: rgba(248,248,248,.45); margin-bottom: 32px; }
+.sim-intro strong { color: var(--yellow); font-weight: 500; }
+
+/* Step indicator */
+.sim-progress { display: flex; gap: 0; margin-bottom: 32px; }
+.sp-step {
+  flex: 1; height: 3px; background: var(--dark3);
+  position: relative; transition: background .3s;
+}
+.sp-step + .sp-step { margin-left: 4px; }
+.sp-step.done { background: var(--yellow-d); }
+.sp-step.active { background: var(--yellow); }
+
+.sim-step { display: none; }
+.sim-step.active { display: block; animation: fUp .35s ease both; }
+
+.ss-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(245,168,0,.5); margin-bottom: 8px;
+}
+.ss-question {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px; letter-spacing: .5px; color: var(--white); margin-bottom: 24px; line-height: 1.1;
+}
+.ss-question em { color: var(--yellow); }
+
+/* Option cards */
+.ss-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ss-opt {
+  background: var(--dark2); border: 1.5px solid rgba(255,255,255,.06);
+  padding: 18px 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: none; transition: all .2s; user-select: none;
+}
+.ss-opt:hover { border-color: rgba(245,168,0,.3); background: var(--dark3); }
+.ss-opt.on { background: rgba(245,168,0,.08); border-color: var(--yellow); }
+.ss-opt-icon { font-size: 22px; flex-shrink: 0; }
+.ss-opt-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px; font-weight: 600; color: rgba(248,248,248,.6); line-height: 1.3;
+}
+.ss-opt.on .ss-opt-text { color: var(--white); }
+
+/* Slider step */
+.ss-slider-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px; color: rgba(248,80,80,.75); line-height: 1; margin-bottom: 12px;
+  transition: all .2s;
+}
+.ss-slider-val .sv-pre { font-size: 36px; vertical-align: top; margin-top: 12px; display: inline-block; }
+.ss-slider-wrap { margin-bottom: 6px; }
+input[type=range].ss-slider {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 4px; background: var(--dark3); border-radius: 2px; outline: none; cursor: none;
+}
+input[type=range].ss-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--yellow); cursor: none;
+  box-shadow: 0 0 0 4px rgba(245,168,0,.2), 0 0 14px rgba(245,168,0,.4);
+  transition: transform .2s;
+}
+input[type=range].ss-slider:hover::-webkit-slider-thumb { transform: scale(1.2); }
+.ss-range-lbl {
+  display: flex; justify-content: space-between;
+  font-size: 11px; font-weight: 300; color: rgba(248,248,248,.25); margin-top: 6px;
+}
+
+/* Nav */
+.ss-nav { display: flex; align-items: center; gap: 10px; margin-top: 24px; }
+.ss-next {
+  background: var(--yellow); color: var(--black);
+  padding: 13px 32px;
+  clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  border: none; cursor: none; transition: all .2s;
+}
+.ss-next:hover { background: var(--yellow-l); }
+.ss-next:disabled { background: rgba(245,168,0,.2); color: rgba(245,168,0,.35); cursor: not-allowed; }
+.ss-back {
+  background: none; border: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(248,248,248,.25); cursor: none; transition: color .2s;
+}
+.ss-back:hover { color: var(--yellow); }
+
+/* Result */
+.sim-result { display: none; }
+.sim-result.show { display: block; animation: fUp .4s ease both; }
+
+.sr-header {
+  background: var(--yellow); padding: 24px 28px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+}
+.sr-h-tag {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(10,10,10,.5); margin-bottom: 4px;
+}
+.sr-h-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: .5px; color: var(--black); line-height: 1;
+}
+
+.sr-specs {
+  background: var(--dark2); border: 1px solid var(--border); border-top: none;
+  padding: 24px 28px; margin-bottom: 12px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.sr-spec {}
+.sr-spec-lbl {
+  font-size: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(248,248,248,.3); margin-bottom: 4px;
+}
+.sr-spec-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px; color: var(--yellow); line-height: 1;
+}
+.sr-spec-sub { font-size: 11px; font-weight: 300; color: rgba(248,248,248,.3); margin-top: 1px; }
+
+.sr-economy {
+  background: rgba(245,168,0,.06); border: 1px solid rgba(245,168,0,.2);
+  padding: 18px 22px; margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.se-item { text-align: center; }
+.se-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; color: var(--yellow); line-height: 1;
+}
+.se-lbl { font-size: 10px; font-weight: 300; color: rgba(248,248,248,.3); text-transform: uppercase; letter-spacing: 1px; }
+.se-div { width: 1px; height: 40px; background: rgba(245,168,0,.2); }
+
+.sr-weg {
+  background: var(--dark3); border: 1px solid rgba(255,255,255,.06);
+  padding: 14px 20px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.srw-icon { font-size: 22px; }
+.srw-text { font-size: 13px; font-weight: 300; color: rgba(248,248,248,.5); line-height: 1.5; }
+.srw-text strong { color: var(--yellow); font-weight: 500; }
+
+.sr-cta {
+  display: block; width: 100%; padding: 16px;
+  background: var(--yellow); color: var(--black); text-decoration: none; text-align: center;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  cursor: none; transition: all .2s;
+}
+.sr-cta:hover { background: var(--yellow-l); box-shadow: 0 6px 24px rgba(245,168,0,.35); }
+.sr-reset {
+  display: block; text-align: center; margin-top: 10px; width: 100%;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(248,248,248,.2); cursor: none; background: none; border: none; transition: color .2s;
+}
+.sr-reset:hover { color: var(--yellow); }
+
+/* Info side */
+.sim-info { position: sticky; top: 84px; }
+.si-card {
+  background: var(--dark2); border: 1px solid var(--border-w);
+  border-left: 3px solid var(--yellow);
+  padding: 22px 22px; margin-bottom: 12px;
+  transition: border-color .3s;
+}
+.si-card:hover { border-color: rgba(245,168,0,.4); }
+.si-card-icon { font-size: 20px; margin-bottom: 8px; }
+.si-card-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 17px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+  color: var(--white); margin-bottom: 6px;
+}
+.si-card-desc { font-size: 12px; font-weight: 300; line-height: 1.7; color: rgba(248,248,248,.4); }
+.si-card-tag {
+  display: inline-block; margin-top: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--yellow-d);
+}
+
+/* ══ SEGMENTOS ══ */
+.segmentos {
+  padding: 100px 64px;
+  background: var(--black);
+  position: relative; overflow: hidden;
+}
+.seg-bg {
+  position: absolute; right: -4%; top: -20%;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30vw; color: rgba(245,168,0,.025);
+  pointer-events: none; user-select: none; line-height: 1;
+}
+.seg-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 1px;
+  background: rgba(255,255,255,.05); margin-top: 60px;
+}
+.seg-card {
+  background: var(--black); padding: 36px 28px;
+  position: relative; overflow: hidden;
+  transition: background .25s; cursor: none;
+}
+.seg-card:hover { background: var(--dark2); }
+.seg-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--yellow); transform: scaleX(0); transition: transform .35s;
+}
+.seg-card:hover::after { transform: scaleX(1); }
+.seg-num {
+  position: absolute; top: 16px; right: 18px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 52px;
+  color: rgba(245,168,0,.06); line-height: 1;
+}
+.seg-icon { font-size: 28px; margin-bottom: 14px; }
+.seg-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: .5px; color: var(--white); margin-bottom: 8px;
+}
+.seg-desc { font-size: 12px; font-weight: 300; line-height: 1.75; color: rgba(248,248,248,.35); }
+.seg-tag {
+  display: inline-block; margin-top: 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--yellow-d);
+}
+
+/* ══ DIFERENCIAIS — WEG ══ */
+.difs {
+  padding: 100px 64px;
+  background: var(--yellow);
+  position: relative; overflow: hidden;
+}
+.difs::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(10,10,10,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,10,10,.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.difs .sec-eyebrow { color: rgba(10,10,10,.5); }
+.difs .sec-eyebrow::before { background: rgba(10,10,10,.3); }
+.difs .sec-title { color: var(--black); }
+
+.dif-row {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 60px;
+}
+.dif-card {
+  background: rgba(10,10,10,.08); border: 1px solid rgba(10,10,10,.12);
+  padding: 32px 26px; transition: background .2s; cursor: none;
+}
+.dif-card:hover { background: rgba(10,10,10,.14); }
+.dif-icon { font-size: 28px; margin-bottom: 12px; }
+.dif-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: .5px; color: var(--black); margin-bottom: 8px;
+}
+.dif-desc { font-size: 13px; font-weight: 300; line-height: 1.75; color: rgba(10,10,10,.6); }
+
+/* ══ PROJETOS ══ */
+.projetos {
+  padding: 100px 64px;
+  background: var(--dark); overflow: hidden;
+}
+.proj-track-wrap { overflow: hidden; margin-top: 52px; }
+.proj-track { display: flex; gap: 14px; animation: pScroll 30s linear infinite; width: max-content; }
+.proj-track:hover { animation-play-state: paused; }
+@keyframes pScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.proj-card {
+  width: 280px; flex-shrink: 0;
+  background: var(--dark2); border: 1px solid var(--border-w);
+  overflow: hidden; transition: border-color .25s; cursor: none;
+}
+.proj-card:hover { border-color: rgba(245,168,0,.3); }
+.pc-header {
+  background: rgba(245,168,0,.08); border-bottom: 1px solid var(--border);
+  padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pc-badge {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--yellow);
+  display: flex; align-items: center; gap: 6px;
+}
+.pc-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); }
+.pc-kw { font-size: 11px; font-weight: 300; color: rgba(248,248,248,.25); }
+.pc-body { padding: 18px; }
+.pc-tipo {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(245,168,0,.5); margin-bottom: 4px;
+}
+.pc-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; color: var(--white); margin-bottom: 2px; line-height: 1;
+}
+.pc-city { font-size: 11px; font-weight: 300; color: rgba(248,248,248,.3); margin-bottom: 14px; }
+.pc-economy {
+  display: flex; align-items: center; gap: 8px;
+}
+.pe-before { font-size: 12px; color: rgba(248,80,80,.55); text-decoration: line-through; }
+.pe-arrow { color: var(--yellow); }
+.pe-after {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 17px; font-weight: 700; color: var(--yellow);
+}
+
+/* ══ DEPOIMENTOS ══ */
+.depos {
+  padding: 100px 64px;
+  background: var(--black); overflow: hidden;
+}
+.depo-track-wrap { overflow: hidden; margin-top: 52px; }
+.depo-track { display: flex; gap: 14px; animation: dScroll 28s linear infinite; width: max-content; }
+.depo-track:hover { animation-play-state: paused; }
+@keyframes dScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.depo-card {
+  background: var(--dark2); border: 1px solid var(--border-w);
+  padding: 28px 22px; width: 320px; flex-shrink: 0;
+  position: relative; transition: border-color .25s; cursor: none;
+}
+.depo-card:hover { border-color: rgba(245,168,0,.25); }
+.depo-card::before {
+  content: '"'; position: absolute; top: 8px; right: 14px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 64px;
+  color: rgba(245,168,0,.07); line-height: 1;
+}
+.dc-stars { color: var(--yellow); font-size: 11px; letter-spacing: 2px; margin-bottom: 10px; }
+.dc-text { font-size: 13px; font-weight: 300; line-height: 1.8; color: rgba(248,248,248,.5); font-style: italic; margin-bottom: 16px; }
+.dc-author { display: flex; align-items: center; gap: 8px; }
+.dc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--yellow); }
+.dc-name { font-size: 12px; font-weight: 500; color: var(--white); }
+.dc-tipo { font-size: 11px; font-weight: 300; color: var(--yellow-d); margin-top: 1px; }
+
+/* ══ CTA FINAL ══ */
+.cta-final {
+  padding: 120px 64px;
+  background: var(--dark);
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-final::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,168,0,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,168,0,.03) 1px, transparent 1px);
+  background-size: 56px 56px; pointer-events: none;
+}
+.cta-final::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(245,168,0,.07) 0%, transparent 55%);
+  pointer-events: none;
+}
+.cta-bg-r {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 60vw; color: rgba(245,168,0,.025);
+  pointer-events: none; user-select: none; line-height: 1;
+}
+.cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.cta-eyebrow {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  color: rgba(245,168,0,.45); margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.cta-eyebrow::before, .cta-eyebrow::after { content: ''; width: 28px; height: 1px; background: rgba(245,168,0,.3); }
+.cta-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 8vw, 108px);
+  line-height: .88; color: var(--white); margin-bottom: 16px; letter-spacing: -2px;
+}
+.cta-title .ct-y { color: var(--yellow); display: block; }
+.cta-sub {
+  font-size: 15px; font-weight: 300; color: rgba(248,248,248,.4);
+  line-height: 1.8; margin-bottom: 48px;
+}
+.cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.cta-bottom {
+  margin-top: 44px; padding-top: 24px;
+  border-top: 1px solid rgba(245,168,0,.1);
+  font-size: 11px; font-weight: 300; color: rgba(248,248,248,.2);
+  letter-spacing: .5px; line-height: 1.9;
+}
+.cta-bottom strong { color: rgba(248,248,248,.35); font-weight: 400; }
+
+/* ══ FOOTER ══ */
+footer {
+  background: var(--black); border-top: 1px solid var(--border);
+  padding: 26px 64px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+}
+.fl {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 2px; color: rgba(245,168,0,.25);
+}
+.fc { font-size: 11px; font-weight: 300; color: rgba(248,248,248,.18); }
+.flinks { display: flex; gap: 20px; }
+.flinks a {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(245,168,0,.2); text-decoration: none; transition: color .2s; cursor: none;
+}
+.flinks a:hover { color: var(--yellow); }
+
+/* ══ SHARED ══ */
+.sec-eyebrow {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--yellow); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-eyebrow::before { content: ''; width: 22px; height: 2px; background: var(--yellow); }
+.sec-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(38px, 4.5vw, 62px);
+  line-height: .92; color: var(--white); margin-bottom: 12px; letter-spacing: -.5px;
+}
+.sec-title em { color: var(--yellow); font-style: normal; }
+.sec-sub { font-size: 14px; font-weight: 300; line-height: 1.8; color: rgba(248,248,248,.4); max-width: 520px; }
+
+/* ══ REVEAL ══ */
+.rv { opacity: 0; transition: opacity .7s ease, transform .7s ease; }
+.rv.fb { transform: translateY(24px); } .rv.fl { transform: translateX(-24px); }
+.rv.fr { transform: translateX(24px); } .rv.sc { transform: scale(.97); }
+.rv.v  { opacity: 1; transform: none !important; }
+.rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; }
+.rv.d3 { transition-delay: .3s; } .rv.d4 { transition-delay: .4s; }
+@keyframes fUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1024px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-left, .hero-right { padding: 60px 24px 40px; }
+  .simulador, .segmentos, .difs, .projetos, .depos, .cta-final { padding: 80px 24px; }
+  .sim-layout { grid-template-columns: 1fr; gap: 48px; }
+  .sim-info { position: static; }
+  .seg-grid { grid-template-columns: 1fr 1fr; }
+  .dif-row { grid-template-columns: 1fr 1fr; }
+  footer { padding: 24px; flex-direction: column; text-align: center; }
+}
+@media (max-width: 600px) {
+  .hero-title { font-size: clamp(52px, 16vw, 84px); }
+  .hero-pillars { flex-direction: column; gap: 0; }
+  .hp-item { border-right: 1px solid var(--border-w); }
+  .hero-actions { flex-direction: column; }
+  .ss-opts { grid-template-columns: 1fr; }
+  .seg-grid { grid-template-columns: 1fr; }
+  .dif-row { grid-template-columns: 1fr; }
+  .sr-specs { grid-template-columns: 1fr 1fr; }
+  .cta-btns { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-r"><span>R</span></div>
+    <div class="nav-logo-info">
+      <div class="nav-logo-name">Grupo R Solar</div>
+      <div class="nav-logo-sub">Integrador WEG · Campo Grande</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#simulador">Simulador</a></li>
+    <li><a href="#segmentos">Segmentos</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+  </ul>
+  <a href="https://linktr.ee/gruporsolaroficial" class="nav-cta" target="_blank">Solicitar projeto</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="weg-badge">
+      <div class="weg-badge-icon">W</div>
+      <div class="weg-badge-text">Integrador Autorizado WEG Solar</div>
+    </div>
+    <h1 class="hero-title">
+      <span class="ht-o">Energia</span>
+      <span class="ht-y">Solar</span>
+      <span>É com o</span>
+      <span class="ht-y">Grupo R.</span>
+    </h1>
+    <p class="hero-desc">
+      Projeto, instalação, garantia e assistência. <strong>Integrador autorizado WEG Solar</strong> em Campo Grande — do residencial à usina fotovoltaica.
+    </p>
+    <div class="hero-pillars">
+      <div class="hp-item">
+        <div class="hp-icon">📐</div>
+        <div class="hp-label">Projeto</div>
+        <div class="hp-sub">Técnico e homologado</div>
+      </div>
+      <div class="hp-item">
+        <div class="hp-icon">⚡</div>
+        <div class="hp-label">Instalação</div>
+        <div class="hp-sub">Equipe certificada</div>
+      </div>
+      <div class="hp-item">
+        <div class="hp-icon">🛡️</div>
+        <div class="hp-label">Garantia</div>
+        <div class="hp-sub">Fabricante + mão de obra</div>
+      </div>
+      <div class="hp-item">
+        <div class="hp-icon">🔧</div>
+        <div class="hp-label">Assistência</div>
+        <div class="hp-sub">Pós-venda real</div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#simulador" class="btn-yellow">⚡ Simular meu projeto →</a>
+      <a href="https://linktr.ee/gruporsolaroficial" class="btn-outline" target="_blank">Falar agora</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hr-wm">R</div>
+    <div class="hr-top">
+      <div class="hr-rings">
+        <div class="hr-ring"></div>
+        <div class="hr-ring"></div>
+        <div class="hr-ring"></div>
+        <div class="hr-center"><span>R</span></div>
+      </div>
+      <div class="hr-quote">
+        <em>Quem espera</em><br>o perfeito<br><em>perde o vento.</em>
+      </div>
+    </div>
+    <div class="hr-bottom">
+      <div class="hr-stat">
+        <div class="hr-stat-num">WEG</div>
+        <div class="hr-stat-lbl">Integrador autorizado</div>
+      </div>
+      <div class="hr-stat">
+        <div class="hr-stat-num">MS</div>
+        <div class="hr-stat-lbl">Campo Grande e região</div>
+      </div>
+      <div class="hr-stat">
+        <div class="hr-stat-num">4</div>
+        <div class="hr-stat-lbl">Etapas completas</div>
+      </div>
+      <div class="hr-stat">
+        <div class="hr-stat-num">25+</div>
+        <div class="hr-stat-lbl">Anos de vida útil</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item">Integrador Autorizado WEG <span class="ts">◆</span></div>
+    <div class="ticker-item">Residencial <span class="ts">◆</span></div>
+    <div class="ticker-item">Comercial <span class="ts">◆</span></div>
+    <div class="ticker-item">Industrial <span class="ts">◆</span></div>
+    <div class="ticker-item">Usinas Fotovoltaicas <span class="ts">◆</span></div>
+    <div class="ticker-item">Campo Grande · MS <span class="ts">◆</span></div>
+    <div class="ticker-item">Projeto · Instalação · Garantia · Assistência <span class="ts">◆</span></div>
+    <div class="ticker-item">Energia Solar é com o Grupo R <span class="ts">◆</span></div>
+    <div class="ticker-item">Integrador Autorizado WEG <span class="ts">◆</span></div>
+    <div class="ticker-item">Residencial <span class="ts">◆</span></div>
+    <div class="ticker-item">Comercial <span class="ts">◆</span></div>
+    <div class="ticker-item">Industrial <span class="ts">◆</span></div>
+    <div class="ticker-item">Usinas Fotovoltaicas <span class="ts">◆</span></div>
+    <div class="ticker-item">Campo Grande · MS <span class="ts">◆</span></div>
+    <div class="ticker-item">Projeto · Instalação · Garantia · Assistência <span class="ts">◆</span></div>
+    <div class="ticker-item">Energia Solar é com o Grupo R <span class="ts">◆</span></div>
+  </div>
+</div>
+
+<!-- SIMULADOR DE PROJETO -->
+<section class="simulador rv fb" id="simulador">
+  <div class="sec-eyebrow rv fb">Ferramenta exclusiva</div>
+  <h2 class="sec-title rv fb d1">SIMULE SEU<br><em>PRÉ-PROJETO</em> AGORA.</h2>
+  <p class="sec-sub rv fb d2">3 passos. Descubra a potência ideal, quantos painéis WEG você precisa, a área de instalação e a economia projetada para o seu perfil.</p>
+
+  <div class="sim-layout">
+    <!-- Steps -->
+    <div class="rv fl d1">
+      <p class="sim-intro">O Grupo R não vende sistema de prateleira. <strong>Todo projeto começa com diagnóstico técnico real</strong> — e este simulador é o primeiro passo.</p>
+
+      <!-- Progress -->
+      <div class="sim-progress">
+        <div class="sp-step active" id="sp1"></div>
+        <div class="sp-step" id="sp2"></div>
+        <div class="sp-step" id="sp3"></div>
+      </div>
+
+      <!-- Step 1: Segmento -->
+      <div class="sim-step active" id="step-1">
+        <div class="ss-label">Passo 1 de 3</div>
+        <div class="ss-question">Qual é o seu <em>segmento</em>?</div>
+        <div class="ss-opts">
+          <div class="ss-opt" data-s="1" data-v="residencial" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">🏠</div>
+            <div class="ss-opt-text">Residencial<br><span style="font-size:11px;opacity:.5">Casa ou apartamento</span></div>
+          </div>
+          <div class="ss-opt" data-s="1" data-v="comercial" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">🏪</div>
+            <div class="ss-opt-text">Comercial<br><span style="font-size:11px;opacity:.5">Loja, escritório, galpão</span></div>
+          </div>
+          <div class="ss-opt" data-s="1" data-v="industrial" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">🏭</div>
+            <div class="ss-opt-text">Industrial<br><span style="font-size:11px;opacity:.5">Indústria ou fábrica</span></div>
+          </div>
+          <div class="ss-opt" data-s="1" data-v="usina" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">⚡</div>
+            <div class="ss-opt-text">Usina Solar<br><span style="font-size:11px;opacity:.5">Geração em escala</span></div>
+          </div>
+        </div>
+        <div class="ss-nav">
+          <button class="ss-next" id="next-1" disabled onclick="goSim(2)">Próximo →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Conta de luz -->
+      <div class="sim-step" id="step-2">
+        <div class="ss-label">Passo 2 de 3</div>
+        <div class="ss-question">Valor da sua <em>fatura atual</em>?</div>
+        <div class="ss-slider-val" id="ss-val"><span class="sv-pre">R$</span> <span id="ss-num">500</span></div>
+        <div class="ss-slider-wrap">
+          <input type="range" class="ss-slider" id="ss-slider" min="100" max="80000" step="100" value="500">
+        </div>
+        <div class="ss-range-lbl"><span>R$ 100</span><span>R$ 80.000</span></div>
+        <div class="ss-nav">
+          <button class="ss-next" id="next-2" onclick="goSim(3)">Próximo →</button>
+          <button class="ss-back" onclick="goSim(1)">← Voltar</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Telhado -->
+      <div class="sim-step" id="step-3">
+        <div class="ss-label">Passo 3 de 3</div>
+        <div class="ss-question">Tipo de <em>cobertura</em>?</div>
+        <div class="ss-opts">
+          <div class="ss-opt" data-s="3" data-v="ceramica" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">🏘️</div>
+            <div class="ss-opt-text">Cerâmica</div>
+          </div>
+          <div class="ss-opt" data-s="3" data-v="fibrocimento" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">🏗️</div>
+            <div class="ss-opt-text">Fibrocimento / Amianto</div>
+          </div>
+          <div class="ss-opt" data-s="3" data-v="metalica" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">🔩</div>
+            <div class="ss-opt-text">Metálica / Trapezoidal</div>
+          </div>
+          <div class="ss-opt" data-s="3" data-v="laje" onclick="pickOpt(this)">
+            <div class="ss-opt-icon">⬜</div>
+            <div class="ss-opt-text">Laje / Solo</div>
+          </div>
+        </div>
+        <div class="ss-nav">
+          <button class="ss-next" id="next-3" disabled onclick="calcProjeto()">Ver pré-projeto →</button>
+          <button class="ss-back" onclick="goSim(2)">← Voltar</button>
+        </div>
+      </div>
+
+      <!-- Resultado -->
+      <div class="sim-result" id="sim-result">
+        <div class="sr-header">
+          <div class="sr-h-tag" id="sr-tag">Pré-projeto gerado</div>
+          <div class="sr-h-title" id="sr-title">—</div>
+        </div>
+        <div class="sr-specs">
+          <div class="sr-spec">
+            <div class="sr-spec-lbl">Potência estimada</div>
+            <div class="sr-spec-val" id="sr-kwp">— kWp</div>
+            <div class="sr-spec-sub">Painéis WEG</div>
+          </div>
+          <div class="sr-spec">
+            <div class="sr-spec-lbl">Painéis necessários</div>
+            <div class="sr-spec-val" id="sr-paineis">—</div>
+            <div class="sr-spec-sub">~550Wp cada</div>
+          </div>
+          <div class="sr-spec">
+            <div class="sr-spec-lbl">Área estimada</div>
+            <div class="sr-spec-val" id="sr-area">— m²</div>
+            <div class="sr-spec-sub">Área de instalação</div>
+          </div>
+          <div class="sr-spec">
+            <div class="sr-spec-lbl">Retorno estimado</div>
+            <div class="sr-spec-val" id="sr-payback">— anos</div>
+            <div class="sr-spec-sub">Payback médio</div>
+          </div>
+        </div>
+        <div class="sr-economy">
+          <div class="se-item">
+            <div class="se-val" id="sr-mes">—</div>
+            <div class="se-lbl">Economia / mês</div>
+          </div>
+          <div class="se-div"></div>
+          <div class="se-item">
+            <div class="se-val" id="sr-ano">—</div>
+            <div class="se-lbl">Economia / ano</div>
+          </div>
+          <div class="se-div"></div>
+          <div class="se-item">
+            <div class="se-val" id="sr-25">—</div>
+            <div class="se-lbl">Economia / 25 anos</div>
+          </div>
+        </div>
+        <div class="sr-weg">
+          <div class="srw-icon">⚡</div>
+          <div class="srw-text">
+            Painéis <strong>WEG Solar</strong> — tecnologia brasileira de alto desempenho com garantia do fabricante. O Grupo R é <strong>integrador autorizado</strong> e tem estoque em Campo Grande.
+          </div>
+        </div>
+        <a class="sr-cta" id="sr-cta" href="#" target="_blank">⚡ SOLICITAR PROJETO TÉCNICO GRATUITO →</a>
+        <button class="sr-reset" onclick="resetSim()">Refazer simulação</button>
+      </div>
+    </div>
+
+    <!-- Info cards -->
+    <div class="sim-info rv fr d2">
+      <div class="si-card">
+        <div class="si-card-icon">⚡</div>
+        <div class="si-card-title">Integrador WEG autorizado</div>
+        <div class="si-card-desc">O Grupo R é credenciado diretamente pela WEG para projetos e instalação de sistemas fotovoltaicos. Garantia do fabricante + suporte técnico oficial em Campo Grande.</div>
+        <span class="si-card-tag">Credencial verificada →</span>
+      </div>
+      <div class="si-card" style="border-left-color:#fff">
+        <div class="si-card-icon">📐</div>
+        <div class="si-card-title">Projeto técnico real</div>
+        <div class="si-card-desc">Nenhum sistema é instalado sem projeto elétrico assinado por engenheiro, homologação na distribuidora e laudo estrutural. Sem atalhos — sem problemas futuros.</div>
+        <span class="si-card-tag">Da planta à energia →</span>
+      </div>
+      <div class="si-card">
+        <div class="si-card-icon">🏭</div>
+        <div class="si-card-title">Estoque físico em Campo Grande</div>
+        <div class="si-card-desc">Painéis WEG, inversores e estruturas em estoque próprio. Agilidade na entrega e instalação — sem depender de prazo de fornecedor a longa distância.</div>
+        <span class="si-card-tag">Disponibilidade imediata →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEGMENTOS -->
+<section class="segmentos rv fb" id="segmentos">
+  <div class="seg-bg">R</div>
+  <div class="sec-eyebrow rv fb">Atendemos</div>
+  <h2 class="sec-title rv fb d1">DO TELHADO<br><em>À USINA.</em></h2>
+  <p class="sec-sub rv fb d2">Residencial, comercial, industrial ou usina fotovoltaica — o Grupo R projeta e instala em qualquer escala.</p>
+  <div class="seg-grid">
+    <div class="seg-card rv sc">
+      <div class="seg-num">01</div>
+      <div class="seg-icon">🏠</div>
+      <div class="seg-title">Residencial</div>
+      <div class="seg-desc">Para quem quer parar de pagar caro na conta de luz. Sistema dimensionado para sua casa, com instalação em 1 dia e retorno médio em 4 anos.</div>
+      <div class="seg-tag">Ver projetos →</div>
+    </div>
+    <div class="seg-card rv sc d1">
+      <div class="seg-num">02</div>
+      <div class="seg-icon">🏪</div>
+      <div class="seg-title">Comercial</div>
+      <div class="seg-desc">Loja, clínica, escritório ou galpão — a energia solar reduz o custo operacional e aumenta a competitividade do seu negócio. ROI calculado antes da instalação.</div>
+      <div class="seg-tag">Simular economia →</div>
+    </div>
+    <div class="seg-card rv sc d2">
+      <div class="seg-num">03</div>
+      <div class="seg-icon">🏭</div>
+      <div class="seg-title">Industrial</div>
+      <div class="seg-desc">Grandes consumos, grandes economias. Projetos de centenas de kWp com engenharia dedicada, homologação junto à distribuidora e gestão completa da obra.</div>
+      <div class="seg-tag">Projeto sob medida →</div>
+    </div>
+    <div class="seg-card rv sc d3">
+      <div class="seg-num">04</div>
+      <div class="seg-icon">⚡</div>
+      <div class="seg-title">Usinas</div>
+      <div class="seg-desc">Geração de energia em escala para venda à rede ou autoconsumo remoto. O Grupo R desenvolve usinas fotovoltaicas do terreno à entrega de energia ao sistema.</div>
+      <div class="seg-tag">Falar com especialista →</div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS WEG -->
+<section class="difs rv fb">
+  <div class="sec-eyebrow rv fb">Por que Grupo R</div>
+  <h2 class="sec-title rv fb d1" style="color:var(--black)">MAIS DO QUE<br>QUALQUER PROPAGANDA.</h2>
+  <div class="dif-row">
+    <div class="dif-card rv sc">
+      <div class="dif-icon">🏆</div>
+      <div class="dif-title">WEG Autorizado</div>
+      <div class="dif-desc">Credencial de integrador WEG Solar — a maior fabricante de painéis e inversores do Brasil. Garantia de fábrica, suporte técnico oficial e equipamentos de primeira linha.</div>
+    </div>
+    <div class="dif-card rv sc d1">
+      <div class="dif-icon">🔧</div>
+      <div class="dif-title">Assistência Contínua</div>
+      <div class="dif-desc">Projeto, instalação e garantia são só o começo. O Grupo R acompanha cada sistema instalado com monitoramento e suporte pós-venda de verdade.</div>
+    </div>
+    <div class="dif-card rv sc d2">
+      <div class="dif-icon">📊</div>
+      <div class="dif-title">Projeto Técnico Real</div>
+      <div class="dif-desc">Nenhum sistema sai sem projeto de engenharia, homologação junto à distribuidora e documentação completa. Zero improviso, zero risco para o cliente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section class="projetos rv fb" id="projetos">
+  <div class="sec-eyebrow rv fb">Fechamentos</div>
+  <h2 class="sec-title rv fb d1">+1 PROJETO<br><em>CONCLUÍDO.</em></h2>
+  <p class="sec-sub rv fb d2">Residencial, comercial, industrial — Campo Grande e toda a região do MS.</p>
+  <div class="proj-track-wrap">
+    <div class="proj-track">
+      <div class="proj-card"><div class="pc-header"><div class="pc-badge">Fechado</div><div class="pc-kw">6,6 kWp</div></div><div class="pc-body"><div class="pc-tipo">Residencial</div><div class="pc-name">Família Rodrigues</div><div class="pc-city">📍 Campo Grande, MS</div><div class="pc-economy"><span class="pe-before">R$ 740/mês</span><span class="pe-arrow">→</span><span class="pe-after">R$ 52/mês</span></div></div></div>
+      <div class="proj-card"><div class="pc-header"><div class="pc-badge">Fechado</div><div class="pc-kw">22 kWp</div></div><div class="pc-body"><div class="pc-tipo">Comercial</div><div class="pc-name">Comércio Cel. Antonino</div><div class="pc-city">📍 Campo Grande, MS</div><div class="pc-economy"><span class="pe-before">R$ 2.800/mês</span><span class="pe-arrow">→</span><span class="pe-after">R$ 195/mês</span></div></div></div>
+      <div class="proj-card"><div class="pc-header"><div class="pc-badge">Fechado</div><div class="pc-kw">150 kWp</div></div><div class="pc-body"><div class="pc-tipo">Industrial</div><div class="pc-name">Indústria Regional</div><div class="pc-city">📍 Região de Campo Grande</div><div class="pc-economy"><span class="pe-before">R$ 18k/mês</span><span class="pe-arrow">→</span><span class="pe-after">R$ 1.200/mês</span></div></div></div>
+      <div class="proj-card"><div class="pc-header"><div class="pc-badge">Fechado</div><div class="pc-kw">4,4 kWp</div></div><div class="pc-body"><div class="pc-tipo">Residencial</div><div class="pc-name">Residência Pereira</div><div class="pc-city">📍 Campo Grande, MS</div><div class="pc-economy"><span class="pe-before">R$ 480/mês</span><span class="pe-arrow">→</span><span class="pe-after">R$ 38/mês</span></div></div></div>
+      <div class="proj-card"><div class="pc-header"><div class="pc-badge">Fechado</div><div class="pc-kw">48 kWp</div></div><div class="pc-body"><div class="pc-tipo">Comercial</div><div class="pc-name">Rede de Estabelecimentos</div><div class="pc-city">📍 MS</div><div class="pc-economy"><span class="pe-before">R$ 6.400/mês</span><span class="pe-arrow">→</span><span class="pe-after">R$ 420/mês</span></div></div></div>
+      <!-- dup -->
+      <div class="proj-card"><div class="pc-header"><div class="pc-badge">Fechado</div><div class="pc-kw">6,6 kWp</div></div><div class="pc-body"><div class="pc-tipo">Residencial</div><div class="pc-name">Família Rodrigues</div><div class="pc-city">📍 Campo Grande, MS</div><div class="pc-economy"><span class="pe-before">R$ 740/mês</span><span class="pe-arrow">→</span><span class="pe-after">R$ 52/mês</span></div></div></div>
+      <div class="proj-card"><div class="pc-header"><div class="pc-badge">Fechado</div><div class="pc-kw">22 kWp</div></div><div class="pc-body"><div class="pc-tipo">Comercial</div><div class="pc-name">Comércio Cel. Antonino</div><div class="pc-city">📍 Campo Grande, MS</div><div class="pc-economy"><span class="pe-before">R$ 2.800/mês</span><span class="pe-arrow">→</span><span class="pe-after">R$ 195/mês</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="depos rv fb">
+  <div class="sec-eyebrow rv fb">Clientes</div>
+  <h2 class="sec-title rv fb d1">QUEM JÁ<br><em>FECHOU.</em></h2>
+  <div class="depo-track-wrap">
+    <div class="depo-track">
+      <div class="depo-card"><div class="dc-stars">★★★★★</div><div class="dc-text">"Da proposta à instalação, o Grupo R foi técnico em tudo. Me explicaram cada passo do projeto, homologaram na CEMIG e minha conta caiu 92% no primeiro mês."</div><div class="dc-author"><div class="dc-dot"></div><div><div class="dc-name">Marcelo A.</div><div class="dc-tipo">Residencial · Campo Grande</div></div></div></div>
+      <div class="depo-card"><div class="dc-stars">★★★★★</div><div class="dc-text">"Tinha medo de comprar energia solar e ser abandonado depois. O Grupo R tem assistência de verdade — meses depois ainda me acompanham. Empresa séria."</div><div class="dc-author"><div class="dc-dot"></div><div><div class="dc-name">Carla M.</div><div class="dc-tipo">Comercial · MS</div></div></div></div>
+      <div class="depo-card"><div class="dc-stars">★★★★★</div><div class="dc-text">"Fui em outra empresa antes. Não tinham projeto de engenharia, queriam instalar na raça. O Grupo R fez tudo certo — projeto, homologação, laudo. Vale cada centavo."</div><div class="dc-author"><div class="dc-dot"></div><div><div class="dc-name">Ricardo S.</div><div class="dc-tipo">Industrial · Campo Grande</div></div></div></div>
+      <div class="depo-card"><div class="dc-stars">★★★★★</div><div class="dc-text">"Os painéis WEG que eles instalaram geraram mais do que o projetado. Em 3 anos o sistema já estava pago e agora é tudo economia. Recomendo sem hesitar."</div><div class="dc-author"><div class="dc-dot"></div><div><div class="dc-name">Ana Paula F.</div><div class="dc-tipo">Residencial · Campo Grande</div></div></div></div>
+      <!-- dup -->
+      <div class="depo-card"><div class="dc-stars">★★★★★</div><div class="dc-text">"Da proposta à instalação, o Grupo R foi técnico em tudo. Me explicaram cada passo do projeto, homologaram na CEMIG e minha conta caiu 92% no primeiro mês."</div><div class="dc-author"><div class="dc-dot"></div><div><div class="dc-name">Marcelo A.</div><div class="dc-tipo">Residencial · Campo Grande</div></div></div></div>
+      <div class="depo-card"><div class="dc-stars">★★★★★</div><div class="dc-text">"Tinha medo de comprar energia solar e ser abandonado depois. O Grupo R tem assistência de verdade — meses depois ainda me acompanham. Empresa séria."</div><div class="dc-author"><div class="dc-dot"></div><div><div class="dc-name">Carla M.</div><div class="dc-tipo">Comercial · MS</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final rv fb">
+  <div class="cta-bg-r">R</div>
+  <div class="cta-inner">
+    <div class="cta-eyebrow">Quem espera o perfeito perde o vento</div>
+    <h2 class="cta-title">
+      <span>GARANTA</span>
+      <span class="ct-y">SEU PROJETO</span>
+      <span>AGORA.</span>
+    </h2>
+    <p class="cta-sub">Projeto técnico gratuito com o Grupo R. Integrador WEG autorizado em Campo Grande — do diagnóstico à instalação, sem surpresas.</p>
+    <div class="cta-btns">
+      <a href="https://linktr.ee/gruporsolaroficial" class="btn-yellow" target="_blank">⚡ Solicitar projeto gratuito →</a>
+      <a href="#simulador" class="btn-outline">Simular agora</a>
+    </div>
+    <div class="cta-bottom">
+      <strong>Grupo R Energia Solar</strong> · Integrador Autorizado WEG Solar<br>
+      Av. Cônsul Assaf Trad, 2175 — Cel. Antonino, Campo Grande, MS<br>
+      @gruporsolar · linktr.ee/gruporsolaroficial
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl">Grupo R Solar</div>
+  <div class="fc">Energia Solar · Campo Grande, MS · © 2025</div>
+  <div class="flinks">
+    <a href="https://linktr.ee/gruporsolaroficial" target="_blank">Linktree</a>
+    <a href="https://instagram.com/gruporsolar" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let rx=0, ry=0, mx=-100, my=-100;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function loop() {
+  rx += (mx-rx)*.12; ry += (my-ry)*.12;
+  cur.style.left = mx+'px'; cur.style.top = my+'px';
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.ss-opt,.seg-card,.si-card,.dif-card,.depo-card,.proj-card,.hp-item').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
+});
+
+/* ── NAV ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('sc', window.scrollY > 40);
+});
+
+/* ── REVEAL ── */
+const obs = new IntersectionObserver(e => {
+  e.forEach(x => { if(x.isIntersecting) { x.target.classList.add('v'); obs.unobserve(x.target); } });
+}, {threshold:.07, rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+/* ── SIMULADOR ── */
+const WPP = 'https://api.whatsapp.com/send?phone=55&text=';
+const simA = {};
+
+function pickOpt(el) {
+  const s = el.dataset.s;
+  const v = el.dataset.v;
+  document.querySelectorAll(`.ss-opt[data-s="${s}"]`).forEach(o => o.classList.remove('on'));
+  el.classList.add('on');
+  simA[s] = v;
+  const nextId = s === '1' ? 'next-1' : s === '3' ? 'next-3' : null;
+  if(nextId) document.getElementById(nextId).disabled = false;
+}
+
+function goSim(n) {
+  document.querySelectorAll('.sim-step').forEach(s => s.classList.remove('active'));
+  const step = document.getElementById(`step-${n}`);
+  if(step) step.classList.add('active');
+  // Progress
+  ['sp1','sp2','sp3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    if(i+1 < n) el.classList.add('done');
+    else if(i+1 === n) el.classList.add('active');
+  });
+}
+
+// Slider init
+const slider = document.getElementById('ss-slider');
+const ssNum  = document.getElementById('ss-num');
+slider.addEventListener('input', () => {
+  const v = Number(slider.value);
+  ssNum.textContent = v.toLocaleString('pt-BR');
+  const pct = (v - slider.min) / (slider.max - slider.min) * 100;
+  slider.style.background = `linear-gradient(90deg, var(--yellow) ${pct}%, var(--dark3) ${pct}%)`;
+});
+slider.dispatchEvent(new Event('input'));
+
+// Reduction rates
+const red = { residencial:.91, comercial:.88, industrial:.87, usina:.85 };
+// Cost per kWp (R$)
+const custo = { residencial:4800, comercial:4400, industrial:3900, usina:3400 };
+// Tarifa MS avg
+const tarifa = 0.87;
+
+function fmt(n) {
+  if(n >= 1000) return 'R$ ' + (n/1000).toFixed(n >= 10000 ? 0 : 1).replace('.',',') + 'k';
+  return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+}
+
+function calcProjeto() {
+  const seg  = simA['1'] || 'residencial';
+  const conta = Number(slider.value);
+
+  const reduction = red[seg] || .9;
+  const econMes   = conta * reduction;
+  const econAno   = econMes * 12;
+  const econ25    = econMes * 12 * 25;
+
+  // kWh/month → kWp
+  const kwhMes = conta / tarifa;
+  const kWp    = Math.round(kwhMes / 150 * 10) / 10;
+  const paineis = Math.ceil(kWp / 0.55);
+  const area    = Math.round(paineis * 2.2);
+  const custSys = kWp * custo[seg];
+  const payback = Math.round(custSys / econAno * 10) / 10;
+
+  const titles = {
+    residencial: 'Sistema Residencial WEG',
+    comercial:   'Sistema Comercial WEG',
+    industrial:  'Sistema Industrial WEG',
+    usina:       'Usina Fotovoltaica WEG',
+  };
+  const tags = {
+    residencial: 'Pré-projeto residencial',
+    comercial:   'Pré-projeto comercial',
+    industrial:  'Pré-projeto industrial',
+    usina:       'Pré-projeto usina solar',
+  };
+
+  document.getElementById('sr-tag').textContent   = tags[seg];
+  document.getElementById('sr-title').textContent = titles[seg];
+  document.getElementById('sr-kwp').textContent   = kWp + ' kWp';
+  document.getElementById('sr-paineis').textContent = paineis + ' un.';
+  document.getElementById('sr-area').textContent  = area + ' m²';
+  document.getElementById('sr-payback').textContent = payback + ' anos';
+  document.getElementById('sr-mes').textContent   = fmt(econMes);
+  document.getElementById('sr-ano').textContent   = fmt(econAno);
+  document.getElementById('sr-25').textContent    = fmt(econ25);
+
+  const msg = encodeURIComponent(
+    `Olá Grupo R! Simulei no site: ${titles[seg]}, ${kWp}kWp, ${paineis} painéis WEG, conta atual R$${conta.toLocaleString('pt-BR')}. Quero um projeto técnico gratuito.`
+  );
+  document.getElementById('sr-cta').href = 'https://linktr.ee/gruporsolaroficial';
+
+  // Show result
+  document.querySelectorAll('.sim-step').forEach(s => s.classList.remove('active'));
+  ['sp1','sp2','sp3'].forEach(id => { document.getElementById(id).classList.remove('active'); document.getElementById(id).classList.add('done'); });
+
+  const res = document.getElementById('sim-result');
+  res.classList.remove('show');
+  void res.offsetWidth;
+  res.classList.add('show');
+  res.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function resetSim() {
+  Object.keys(simA).forEach(k => delete simA[k]);
+  document.querySelectorAll('.ss-opt').forEach(o => o.classList.remove('on'));
+  document.getElementById('next-1').disabled = true;
+  document.getElementById('next-3').disabled = true;
+  document.getElementById('sim-result').classList.remove('show');
+  goSim(1);
+}
+</script>
+</body>
+</html>
